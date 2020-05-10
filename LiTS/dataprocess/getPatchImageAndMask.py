@@ -130,10 +130,11 @@ def gen_image_mask(srcimg, seg_image, index, shape, numberxy, numberz):
                                startpostion=startpostion,
                                endpostion=endpostion)
     # step 3 only save subimages (numberxy*numberxy*numberz,16, 256, 256)
-    samples, imagez = np.shape(sub_srcimages)[0], np.shape(sub_srcimages)[1]
+    samples, imagez = np.shape(sub_srcimages)[0], np.shape(sub_srcimages)[1] 
+# this cost less time
+    sub_masks = sub_liverimages.astype(np.float32)
+    sub_masks = np.clip(sub_masks, 0, 255).astype('uint8')
     for j in range(samples):
-        sub_masks = sub_liverimages.astype(np.float32)
-        sub_masks = np.clip(sub_masks, 0, 255).astype('uint8')
         if np.max(sub_masks[j, :, :, :]) == 255:
             filepath = trainImage + "\\" + str(index) + "_" + str(j) + "\\"
             filepath2 = trainLiverMask + "\\" + str(index) + "_" + str(j) + "\\"
